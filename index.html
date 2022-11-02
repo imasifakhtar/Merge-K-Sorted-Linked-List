@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Merge K sorted linked lists | Using Min Heap</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Merge K Sorted Linked Lists</h2>
+      <p>Using Min Heap</p>
+      <label class="custom-field one">
+        <input type="text" id="list" placeholder=" " />
+        <span class="placeholder">Enter Number of Linked Lists</span>
+      </label>
+
+      <label class="custom-field one">
+        <input type="text" id="element" placeholder=" " />
+        <span class="placeholder">Enter Number of Elements in Each List</span>
+      </label>
+
+      <button type="button" class="btn btn-info" onclick="result()">
+        Merge All List
+      </button>
+    </div>
+
+    <div class="area">
+      <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+
+    <script>
+      function result() {
+        class Node {
+          constructor(data) {
+            this.data = data;
+            this.next = null;
+          }
+        }
+
+        function mergeKSortedLists(arr, k) {
+          let head = null,
+            last = null;
+          let pq = [];
+
+          for (let i = 0; i < k; i++) if (arr[i] != null) pq.push(arr[i]);
+
+          pq.sort(function (a, b) {
+            return a.data - b.data;
+          });
+
+          while (pq.length != 0) {
+            let top = pq[0];
+            pq.shift();
+
+            if (top.next != null) pq.push(top.next);
+
+            if (head == null) {
+              head = top;
+              last = top;
+            } else {
+              last.next = top;
+              last = top;
+            }
+            pq.sort(function (a, b) {
+              return a.data - b.data;
+            });
+          }
+
+          return head;
+        }
+
+        function printList(head) {
+          while (head != null) {
+            document.write(head.data + " ");
+            head = head.next;
+          }
+        }
+
+        function push(data) {
+          let newNode = new Node(data);
+          newNode.next = null;
+          return newNode;
+        }
+
+        // Number of elements in each list
+        let k = document.getElementById("list").value;
+
+        // Number of elements in each list
+        let n = document.getElementById("element").value;
+
+        let arr = new Array(k);
+
+        arr[0] = new Node(1);
+        arr[0].next = new Node(3);
+        arr[0].next.next = new Node(5);
+        arr[0].next.next.next = new Node(7);
+
+        arr[1] = new Node(2);
+        arr[1].next = new Node(4);
+        arr[1].next.next = new Node(6);
+        arr[1].next.next.next = new Node(8);
+
+        arr[2] = new Node(0);
+        arr[2].next = new Node(9);
+        arr[2].next.next = new Node(10);
+        arr[2].next.next.next = new Node(11);
+
+        // Merge all lists
+        let head = mergeKSortedLists(arr, k);
+        printList(head);
+      }
+    </script>
+  </body>
+</html>
